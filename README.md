@@ -1,226 +1,421 @@
-> **🚀 Don't want to self-host?** [Join the waitlist for our fully managed solution →](https://mcpengage.com/freshbooks)
-> 
-> Zero setup. Zero maintenance. Just connect and automate.
+# FreshBooks MCP Server
 
----
+Complete Model Context Protocol server for FreshBooks with 80+ tools and 20 React apps.
 
-# 💰 FreshBooks MCP Server — AI-Native Accounting Automation
+## Features
 
-## 💡 What This Unlocks
+### 🛠️ Comprehensive Tool Coverage (80+ tools)
 
-**Turn your AI into a certified accountant.** This MCP server gives Claude direct access to your FreshBooks accounting system—no clicking, no copy-paste, just natural language commands that create invoices, track expenses, and manage clients.
+- **Clients**: CRUD, search, contacts management
+- **Invoices**: Full lifecycle (create, update, send, mark paid, share links, line items)
+- **Estimates**: CRUD, send, accept, line items
+- **Expenses**: CRUD, categories, receipts, search
+- **Payments**: Record and track invoice payments
+- **Projects**: CRUD, services, time tracking integration
+- **Time Entries**: CRUD, timers (start/stop), bulk operations
+- **Taxes**: CRUD, tax defaults
+- **Items/Services**: Product and service catalog management
+- **Staff**: List and manage team members
+- **Bills**: Vendor bills and bill payments
+- **Vendors**: Vendor management
+- **Accounting**: Chart of accounts, journal entries
+- **Retainers**: Recurring retainer agreements
+- **Credit Notes**: Customer credits
+- **Reports**: P&L, tax summary, aging, expense reports
 
-### 🎯 FreshBooks-Native Power Moves
+### 🎨 MCP Apps (20 React Apps)
 
-Real accounting workflows you can automate with plain English:
+1. **Dashboard Overview** - Business metrics at a glance
+2. **Invoice Dashboard** - Invoice list and metrics
+3. **Invoice Detail** - Detailed invoice view
+4. **Invoice Creator** - Create and edit invoices
+5. **Client Dashboard** - Client list and overview
+6. **Client Detail** - Detailed client information
+7. **Expense Tracker** - Track and categorize expenses
+8. **Expense Report** - Expense reporting and analysis
+9. **Project Dashboard** - Active projects overview
+10. **Project Detail** - Project details and time entries
+11. **Time Tracker** - Log and manage time entries
+12. **Time Report** - Time tracking reports
+13. **Payment Dashboard** - Payment tracking
+14. **Estimate Builder** - Create and send estimates
+15. **Profit & Loss Report** - Financial P&L statements
+16. **Tax Summary** - Tax reporting
+17. **Aging Report** - Accounts receivable aging
+18. **Item Catalog** - Products and services catalog
+19. **Bill Manager** - Vendor bill management
+20. **Staff Directory** - Team member directory
 
-1. **End-of-month invoicing blitz**  
-   *"Pull all unbilled time entries from March, group by client, create draft invoices with standard payment terms, and email me the summary."*  
-   → AI generates 20 invoices in 30 seconds vs. 2 hours manual work.
-
-2. **Overdue payment chase**  
-   *"Show me all invoices 30+ days overdue, send reminder emails with escalating urgency based on amount owed."*  
-   → Automated collections without the awkward manual follow-ups.
-
-3. **Expense categorization sprint**  
-   *"List all uncategorized expenses from Q1, match to project codes based on description keywords, flag anomalies for review."*  
-   → Clean books in minutes instead of hours of manual data entry.
-
-4. **Client onboarding pipeline**  
-   *"Create new client records for these 5 companies with addresses, set currency to CAD, generate welcome invoices with 15-day terms, attach our standard contract PDF."*  
-   → Bulk onboarding that used to take half a day, done in one prompt.
-
-5. **Financial intelligence extraction**  
-   *"Analyze payment patterns for top 10 clients—average days to pay, total revenue YTD, flag any late payers and suggest credit limit adjustments."*  
-   → Strategic insights from raw transactional data without spreadsheets.
-
-### 🔗 The Real Power: Combining Tools
-
-Claude chains FreshBooks operations into complete workflows:
-
-- `list_invoices` (overdue) → `send_invoice` (reminders) → `list_payments` (track results)
-- `list_expenses` → filter & categorize → `create_invoice` (bill clients for reimbursable costs)
-- `create_client` → `create_invoice` → `send_invoice` → monitor payment
-
-## 📦 What's Inside
-
-**8 API tools** covering core FreshBooks accounting workflows:
-
-| Tool | Purpose |
-|------|---------|
-| `list_invoices` | Query invoices with filters (status, date range, client) |
-| `get_invoice` | Full invoice details including line items & payment history |
-| `create_invoice` | Generate invoices with line items, terms, notes |
-| `send_invoice` | Email invoices to clients with custom messaging |
-| `list_clients` | Browse client directory with pagination |
-| `create_client` | Add new clients with full contact & billing details |
-| `list_expenses` | Review expense records with filtering |
-| `list_payments` | Track received payments and outstanding balances |
-
-All with proper error handling, automatic OAuth refresh, and TypeScript types.
-
-## 🚀 Quick Start
-
-### Option 1: Claude Desktop (Local)
-
-1. **Clone and build:**
-   ```bash
-   git clone https://github.com/BusyBee3333/FreshBooks-MCP-2026-Complete.git
-   cd freshbooks-mcp-2026-complete
-   npm install
-   npm run build
-   ```
-
-2. **Get your FreshBooks API credentials:**
-   - Go to [FreshBooks Developer Portal](https://www.freshbooks.com/api/start)
-   - Create an OAuth app (or use existing)
-   - Generate access token for your account
-   - Note your Account ID from Settings → Account Settings
-
-3. **Configure Claude Desktop:**
-   
-   On macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`  
-   On Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-
-   ```json
-   {
-     "mcpServers": {
-       "freshbooks": {
-         "command": "node",
-         "args": ["/ABSOLUTE/PATH/TO/freshbooks-mcp-2026-complete/dist/index.js"],
-         "env": {
-           "FRESHBOOKS_ACCESS_TOKEN": "your-oauth-access-token",
-           "FRESHBOOKS_ACCOUNT_ID": "your-account-id"
-         }
-       }
-     }
-   }
-   ```
-
-4. **Restart Claude Desktop**  
-   You'll see the 🔌 icon with FreshBooks tools available.
-
-### Option 2: Docker
+## Installation
 
 ```bash
-docker build -t freshbooks-mcp .
-docker run \
-  -e FRESHBOOKS_ACCESS_TOKEN=your-token \
-  -e FRESHBOOKS_ACCOUNT_ID=your-account-id \
-  freshbooks-mcp
+npm install @mcpengine/freshbooks
 ```
 
-## 🔐 Authentication
+## Configuration
 
-FreshBooks uses **OAuth 2.0** for API access:
-
-1. **Create an OAuth app** at [FreshBooks Developer Portal](https://www.freshbooks.com/api/authentication)
-2. **Authorize the app** to access your account (generates access token & refresh token)
-3. **Use access token** in environment variable (this MCP server handles token refresh automatically)
-
-**Required scopes:** `admin:all:legacy` (for full accounting access) or specific scopes like `accounting:invoice`, `accounting:client`, `accounting:expense`.
-
-**Token lifespan:** Access tokens expire after 30 days; refresh tokens are valid for 30 days after last use.
-
-## 🎯 Example Prompts
-
-Once connected to Claude, use natural language for accounting tasks:
-
-### Invoicing
-- *"Create an invoice for client ID 12345 dated today, due in 30 days, with 3 line items: Web Design $2000, SEO Consulting $1500, Monthly Hosting $99. Add note about early payment discount."*
-- *"Show me all draft invoices, then send them to clients with subject line 'Invoice for March Services'."*
-- *"List all overdue invoices with amounts greater than $1000 and send payment reminder emails."*
-
-### Client Management
-- *"Create a new client: ABC Corp, email billing@abc.com, address 123 Main St, Toronto ON M5V1A1, currency CAD."*
-- *"Show me all clients who have unpaid invoices and export their contact details."*
-
-### Expense & Payment Tracking
-- *"List all expenses from last month and categorize them by amount."*
-- *"Show payments received in the past 7 days and match them to invoices."*
-
-### Financial Analysis
-- *"Calculate total outstanding receivables and break down by aging: 0-30 days, 31-60 days, 60+ days."*
-- *"Which clients paid fastest in Q1? Show average days to payment for each."*
-
-## 🛠️ Development
-
-### Prerequisites
-- Node.js 18+
-- npm or yarn
-- FreshBooks account with API access
-
-### Local Setup
+### Environment Variables
 
 ```bash
-git clone https://github.com/BusyBee3333/FreshBooks-MCP-2026-Complete.git
-cd freshbooks-mcp-2026-complete
+FRESHBOOKS_ACCOUNT_ID=your_account_id
+FRESHBOOKS_ACCESS_TOKEN=your_oauth_access_token
+```
+
+### OAuth2 Setup
+
+1. Register your app at https://my.freshbooks.com/#/developer
+2. Obtain OAuth2 credentials
+3. Complete the OAuth2 authorization flow
+4. Use the access token in your MCP server configuration
+
+### MCP Settings (Claude Desktop)
+
+Add to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "freshbooks": {
+      "command": "npx",
+      "args": ["-y", "@mcpengine/freshbooks"],
+      "env": {
+        "FRESHBOOKS_ACCOUNT_ID": "your_account_id",
+        "FRESHBOOKS_ACCESS_TOKEN": "your_access_token"
+      }
+    }
+  }
+}
+```
+
+## Usage Examples
+
+### List Invoices
+
+```typescript
+// Using the MCP tool
+{
+  "tool": "freshbooks_list_invoices",
+  "arguments": {
+    "page": 1,
+    "per_page": 20,
+    "search": "Acme Corp"
+  }
+}
+```
+
+### Create an Invoice
+
+```typescript
+{
+  "tool": "freshbooks_create_invoice",
+  "arguments": {
+    "customerid": 12345,
+    "create_date": "2024-01-15",
+    "due_offset_days": 30,
+    "notes": "Thank you for your business!",
+    "lines": [
+      {
+        "name": "Consulting Services",
+        "description": "January 2024 consulting",
+        "qty": "10",
+        "unit_cost": {
+          "amount": "150.00",
+          "code": "USD"
+        }
+      }
+    ]
+  }
+}
+```
+
+### Send an Invoice
+
+```typescript
+{
+  "tool": "freshbooks_send_invoice",
+  "arguments": {
+    "invoice_id": 98765
+  }
+}
+```
+
+### Track Time
+
+```typescript
+// Start a timer
+{
+  "tool": "freshbooks_start_timer",
+  "arguments": {
+    "project_id": 456,
+    "note": "Working on website redesign"
+  }
+}
+
+// Stop a timer
+{
+  "tool": "freshbooks_stop_timer",
+  "arguments": {
+    "time_entry_id": 789
+  }
+}
+```
+
+### Generate Reports
+
+```typescript
+// Profit & Loss Report
+{
+  "tool": "freshbooks_profit_loss_report",
+  "arguments": {
+    "start_date": "2024-01-01",
+    "end_date": "2024-12-31"
+  }
+}
+
+// Aging Report
+{
+  "tool": "freshbooks_aging_report",
+  "arguments": {}
+}
+```
+
+## Tool Reference
+
+### Client Tools (6 tools)
+
+- `freshbooks_list_clients` - List all clients
+- `freshbooks_get_client` - Get client details
+- `freshbooks_create_client` - Create new client
+- `freshbooks_update_client` - Update client
+- `freshbooks_delete_client` - Delete client
+- `freshbooks_search_clients` - Search clients
+
+### Invoice Tools (10 tools)
+
+- `freshbooks_list_invoices` - List invoices
+- `freshbooks_get_invoice` - Get invoice details
+- `freshbooks_create_invoice` - Create invoice
+- `freshbooks_update_invoice` - Update invoice
+- `freshbooks_delete_invoice` - Delete invoice
+- `freshbooks_send_invoice` - Send invoice to client
+- `freshbooks_mark_invoice_paid` - Mark as paid
+- `freshbooks_get_invoice_share_link` - Get shareable link
+- `freshbooks_add_invoice_line` - Add line item
+- `freshbooks_search_invoices` - Search invoices
+
+### Estimate Tools (8 tools)
+
+- `freshbooks_list_estimates` - List estimates
+- `freshbooks_get_estimate` - Get estimate details
+- `freshbooks_create_estimate` - Create estimate
+- `freshbooks_update_estimate` - Update estimate
+- `freshbooks_delete_estimate` - Delete estimate
+- `freshbooks_send_estimate` - Send to client
+- `freshbooks_accept_estimate` - Mark as accepted
+- `freshbooks_add_estimate_line` - Add line item
+
+### Expense Tools (7 tools)
+
+- `freshbooks_list_expenses` - List expenses
+- `freshbooks_get_expense` - Get expense details
+- `freshbooks_create_expense` - Create expense
+- `freshbooks_update_expense` - Update expense
+- `freshbooks_delete_expense` - Delete expense
+- `freshbooks_list_expense_categories` - List categories
+- `freshbooks_search_expenses` - Search expenses
+
+### Payment Tools (5 tools)
+
+- `freshbooks_list_payments` - List payments
+- `freshbooks_get_payment` - Get payment details
+- `freshbooks_create_payment` - Record payment
+- `freshbooks_update_payment` - Update payment
+- `freshbooks_delete_payment` - Delete payment
+
+### Project Tools (6 tools)
+
+- `freshbooks_list_projects` - List projects
+- `freshbooks_get_project` - Get project details
+- `freshbooks_create_project` - Create project
+- `freshbooks_update_project` - Update project
+- `freshbooks_delete_project` - Delete project
+- `freshbooks_mark_project_complete` - Mark complete
+
+### Time Entry Tools (7 tools)
+
+- `freshbooks_list_time_entries` - List time entries
+- `freshbooks_get_time_entry` - Get entry details
+- `freshbooks_create_time_entry` - Log time
+- `freshbooks_update_time_entry` - Update entry
+- `freshbooks_delete_time_entry` - Delete entry
+- `freshbooks_start_timer` - Start timer
+- `freshbooks_stop_timer` - Stop timer
+
+### Tax Tools (5 tools)
+
+- `freshbooks_list_taxes` - List taxes
+- `freshbooks_get_tax` - Get tax details
+- `freshbooks_create_tax` - Create tax
+- `freshbooks_update_tax` - Update tax
+- `freshbooks_delete_tax` - Delete tax
+
+### Item/Service Tools (5 tools)
+
+- `freshbooks_list_items` - List items
+- `freshbooks_get_item` - Get item details
+- `freshbooks_create_item` - Create item
+- `freshbooks_update_item` - Update item
+- `freshbooks_delete_item` - Delete item
+
+### Staff Tools (2 tools)
+
+- `freshbooks_list_staff` - List staff members
+- `freshbooks_get_staff_member` - Get staff details
+
+### Bill Tools (8 tools)
+
+- `freshbooks_list_bills` - List bills
+- `freshbooks_get_bill` - Get bill details
+- `freshbooks_create_bill` - Create bill
+- `freshbooks_update_bill` - Update bill
+- `freshbooks_delete_bill` - Delete bill
+- `freshbooks_get_bill_payments` - List payments
+- `freshbooks_create_bill_payment` - Record payment
+
+### Vendor Tools (5 tools)
+
+- `freshbooks_list_vendors` - List vendors
+- `freshbooks_get_vendor` - Get vendor details
+- `freshbooks_create_vendor` - Create vendor
+- `freshbooks_update_vendor` - Update vendor
+- `freshbooks_delete_vendor` - Delete vendor
+
+### Accounting Tools (2 tools)
+
+- `freshbooks_list_accounts` - List chart of accounts
+- `freshbooks_get_account` - Get account details
+
+### Journal Entry Tools (3 tools)
+
+- `freshbooks_list_journal_entries` - List entries
+- `freshbooks_get_journal_entry` - Get entry details
+- `freshbooks_create_journal_entry` - Create entry
+
+### Retainer Tools (5 tools)
+
+- `freshbooks_list_retainers` - List retainers
+- `freshbooks_get_retainer` - Get retainer details
+- `freshbooks_create_retainer` - Create retainer
+- `freshbooks_update_retainer` - Update retainer
+- `freshbooks_delete_retainer` - Delete retainer
+
+### Credit Note Tools (5 tools)
+
+- `freshbooks_list_credit_notes` - List credit notes
+- `freshbooks_get_credit_note` - Get credit note
+- `freshbooks_create_credit_note` - Create credit note
+- `freshbooks_update_credit_note` - Update credit note
+- `freshbooks_delete_credit_note` - Delete credit note
+
+### Report Tools (4 tools)
+
+- `freshbooks_profit_loss_report` - P&L report
+- `freshbooks_tax_summary_report` - Tax summary
+- `freshbooks_aging_report` - Accounts aging
+- `freshbooks_expense_report` - Expense report
+
+## Architecture
+
+```
+src/
+├── server.ts              # MCP server setup
+├── main.ts                # Entry point
+├── clients/
+│   └── freshbooks.ts      # FreshBooks API client (OAuth2, rate limiting)
+├── tools/                 # Tool definitions (17 files)
+│   ├── clients-tools.ts
+│   ├── invoices-tools.ts
+│   ├── estimates-tools.ts
+│   ├── expenses-tools.ts
+│   ├── payments-tools.ts
+│   ├── projects-tools.ts
+│   ├── time-entries-tools.ts
+│   ├── taxes-tools.ts
+│   ├── items-tools.ts
+│   ├── staff-tools.ts
+│   ├── bills-tools.ts
+│   ├── vendors-tools.ts
+│   ├── accounts-tools.ts
+│   ├── journal-entries-tools.ts
+│   ├── retainers-tools.ts
+│   ├── credit-notes-tools.ts
+│   └── reports-tools.ts
+├── types/
+│   └── index.ts           # TypeScript interfaces
+└── ui/
+    └── react-app/         # MCP Apps (20 apps)
+        ├── src/
+        │   ├── apps/      # Individual apps
+        │   ├── components/ # Shared components
+        │   ├── hooks/     # Shared hooks
+        │   └── styles/    # Shared CSS
+        └── package.json
+```
+
+## API Coverage
+
+- ✅ Clients API (complete)
+- ✅ Invoices API (complete)
+- ✅ Estimates API (complete)
+- ✅ Expenses API (complete)
+- ✅ Payments API (complete)
+- ✅ Projects API (complete)
+- ✅ Time Tracking API (complete)
+- ✅ Taxes API (complete)
+- ✅ Items/Services API (complete)
+- ✅ Staff API (read-only)
+- ✅ Bills API (complete)
+- ✅ Vendors API (complete)
+- ✅ Accounting API (partial - read-only)
+- ✅ Journal Entries API (create + read)
+- ✅ Retainers API (complete)
+- ✅ Credit Notes API (complete)
+- ✅ Reports API (complete)
+
+## Development
+
+### Build from source
+
+```bash
+git clone https://github.com/BusyBee3333/mcpengine
+cd mcpengine/servers/freshbooks
 npm install
-cp .env.example .env
-# Edit .env with your FreshBooks OAuth credentials
 npm run build
-npm run dev
 ```
 
-### Testing
+### Run tests
 
 ```bash
-npm test                  # Run all tests
-npm run test:watch        # Watch mode
-npm run test:coverage     # Coverage report
+npm test
 ```
 
-## 🐛 Troubleshooting
+### Type checking
 
-### "Authentication failed" / 401 error
-- **Check your access token:** Verify it's copied correctly without extra spaces
-- **Token expired:** OAuth tokens expire after 30 days—regenerate from FreshBooks developer portal
-- **Account ID mismatch:** Ensure `FRESHBOOKS_ACCOUNT_ID` matches your account (find in Settings)
+```bash
+npm run type-check
+```
 
-### "Tools not appearing in Claude"
-- **Restart required:** Always restart Claude Desktop after config changes
-- **Path issues:** Use absolute paths in `claude_desktop_config.json` (no `~` or relative paths)
-- **Build verification:** Check that `dist/index.js` exists after `npm run build`
+## License
 
-### "Invalid businessId / Not found"
-- FreshBooks API requires your numeric Account ID, not business name
-- Find it: Settings → Account Settings → look for `accountid` in URL or API docs
+MIT
 
-## 📖 Resources
+## Support
 
-- **[FreshBooks API v3 Docs](https://www.freshbooks.com/api/overview)** — Official REST API reference
-- **[OAuth Authentication Guide](https://www.freshbooks.com/api/authentication)** — How to get access tokens
-- **[Accounting Endpoints](https://www.freshbooks.com/api/accounting)** — Invoices, clients, expenses, payments
-- **[MCP Protocol Specification](https://modelcontextprotocol.io/)** — How MCP servers work
-- **[Claude Desktop Documentation](https://claude.ai/desktop)** — Desktop app setup
+For issues and feature requests, please visit:
+https://github.com/BusyBee3333/mcpengine/issues
 
-## 🤝 Contributing
+## Related
 
-Contributions welcome! To add features:
-
-1. Fork the repo
-2. Create a feature branch (`git checkout -b feature/expense-attachments`)
-3. Commit your changes (`git commit -m 'Add expense attachment uploads'`)
-4. Push to the branch (`git push origin feature/expense-attachments`)
-5. Open a Pull Request
-
-**Ideas for contributions:**
-- Support for recurring invoices
-- Expense receipt image uploads
-- Time tracking integration
-- Project & estimate management
-- Multi-currency handling improvements
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) for details
-
-## 🙏 Credits
-
-Built by [MCPEngage](https://mcpengage.com) — AI infrastructure for business software.
-
-Want more MCP servers? Check out our [full catalog](https://mcpengage.com) covering 30+ business platforms.
-
----
-
-**Questions?** Open an issue or join our [Discord community](https://discord.gg/mcpengage).
+- [FreshBooks API Documentation](https://www.freshbooks.com/api)
+- [Model Context Protocol](https://modelcontextprotocol.io)
+- [MCPEngine Repository](https://github.com/BusyBee3333/mcpengine)
